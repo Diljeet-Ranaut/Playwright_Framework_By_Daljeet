@@ -1,0 +1,2 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","3244","SauceLabs full checkout with 3 random items","","Tue Jul 15 17:12:54 GMT+03:00 2025","passed","Tue Jul 15 17:12:57 GMT+03:00 2025","","checkout.spec.ts","",""
