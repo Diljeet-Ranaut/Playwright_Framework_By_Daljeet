@@ -1,18 +1,19 @@
-
 import { Page } from '@playwright/test';
-
+import { locators } from '../utils/locators';  // adjust path as needed
+import { testData } from '../utils/testData';
 export class ProductPage {
-  constructor(private page: Page) {}
+  readonly page: Page;
 
-  async addRandomItems(count: number) {
-    const items = await this.page.locator('.inventory_item').all();
-    const selected = items.sort(() => 0.5 - Math.random()).slice(0, count);
-    for (const item of selected) {
-      await item.locator('button').click();
-    }
+  // Test data
+  readonly defaultQuantity: number = testData.checkout.numberOfItems;
+
+  constructor(page: Page) {
+    this.page = page;
   }
 
-  async goToCart() {
-    await this.page.click('.shopping_cart_link');
+  async addProductToCart(quantity?: number) {
+    const qty = quantity ?? this.defaultQuantity;
+    await this.page.fill(locators.product.productQuantityInput, qty.toString());
+    await this.page.click(locators.product.addToCartButton);
   }
 }

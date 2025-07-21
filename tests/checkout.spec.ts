@@ -1,26 +1,46 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
-import { ProductPage } from '../pages/ProductPage';
 import { CheckoutPage } from '../pages/CheckoutPage';
+import { ProductPage } from '../pages/ProductPage';
+import { testData } from '../utils/testData';
 
-test('SauceLabs full checkout with 3 random items', async ({ page }) => {
-  const login = new LoginPage(page);
-  const products = new ProductPage(page);
-  const checkout = new CheckoutPage(page);
+test.describe('E2E Checkout Flow', () => {
+  let loginPage: LoginPage;
+  let checkoutPage: CheckoutPage;
+  let productPage: ProductPage;
 
-  // ✅ Login and assert navigation success
-  await login.login();
-  await expect(page.locator('.title')).toHaveText('Products');
+  test.beforeEach(async ({ page }) => {
+    loginPage = new LoginPage(page);
+    productPage = new ProductPage(page);
+    checkoutPage = new CheckoutPage(page);
 
-  // ✅ Add items and assert cart badge is 3
-  await products.addRandomItems(3);
-  const cartCount = await page.locator('.shopping_cart_badge').innerText();
-  expect(Number(cartCount)).toBe(3);
+    await loginPage.navigate();
+    await loginPage.login(
+      testData.validUser.username,
+      testData.validUser.password
+    );
+  });
 
-  // ✅ Go to cart and complete checkout
-  await products.goToCart();
-  await checkout.completeCheckout();
+  test('should complete checkout with selected items', async ({ page }) => {
+    await productPage.addProductToCart(); // Uses defaultQuantity from testData
 
-  // ✅ Assert final confirmation message
-  await expect(page.locator('.complete-header')).toHaveText('Thank you for your order!');
+    await checkoutPage.proceedToCheckout();
+
+    await checkoutPage.fillCheckoutInfo(
+      testData.checkout.firstName,
+      testData.checkout.lastName,
+      testData.checkout.zipCode
+    );
+
+    await checkoutPage.completePurchase();
+
+    await expect(page).toHaveURL(testData.checkout.successUrlPattern);
+    await expect(checkoutPage.confirmationMessage).toContainText(
+      testData.checkout.successMessage
+    );
+  });
+
+  test.afterEach(async ({ page }) => {
+    await page.close();
+  });
 });
