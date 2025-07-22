@@ -1,14 +1,18 @@
+// utils/testData.ts
+import { ENV } from "./env";
+
+//console.log("My Data",ENV.username);
 export const testData = {
   validUser: {
-    username: process.env.SAUCE_USERNAME || 'standard_user',
-    password: process.env.SAUCE_PASSWORD || 'secret_sauce',
+    username: ENV.username,
+    password: ENV.password,
   },
   checkout: {
-    firstName: 'Daljeet',
-    lastName: 'Ranot',
-    zipCode: '123456',
     numberOfItems: 3,
-    successMessage: 'Thank you for your order!',
-    successUrlPattern: /.*checkout-complete/,
+    firstName: "Daljeet",
+    lastName: "Ranot",
+    zipCode: "12345",
+    successUrlPattern: /checkout-complete\.html$/,
+    successMessage: "Thank you for your order",
   },
 };

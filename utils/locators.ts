@@ -5,8 +5,8 @@ export const locators = {
     loginBtn: '[data-test="login-button"]',
   },
   inventory: {
-    itemAddToCart: '.inventory_item button',
-    cartIcon: '.shopping_cart_link',
+    itemAddToCart: '[data-test^="add-to-cart"]', // Selects any "add-to-cart" button
+    cartIcon: ".shopping_cart_link",
   },
   checkout: {
     checkoutBtn: '[data-test="checkout"]',
@@ -15,10 +15,6 @@ export const locators = {
     zipCode: '[data-test="postalCode"]',
     continueBtn: '[data-test="continue"]',
     finishBtn: '[data-test="finish"]',
-    completeHeader: '.complete-header',
-  },
-  product: {
-    addToCartButton: 'button#add-to-cart',
-    productQuantityInput: 'input#quantity',
+    completeHeader: ".complete-header",
   },
 };

@@ -7,8 +7,9 @@ dotenv.config();
 export default defineConfig({
   testDir: './tests',
   retries: 0,
+  timeout: 60000,
   use: {
-    headless: true,
+    headless: false,
     viewport: { width: 1280, height: 720 },
     ignoreHTTPSErrors: true,
     video: 'off',
